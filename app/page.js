@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { FaSearch, FaTemperatureHigh, FaCloudSun, FaTint, FaWind, FaMapMarkerAlt, FaSpinner } from "react-icons/fa";
+import WeatherForm from "./components/WeatherForm";
 
 export default function Home() {
   const [city, setCity] = useState("");
@@ -15,7 +16,6 @@ export default function Home() {
     setLoading(true);
     try {
       setError(null);
-      // Combine city and state for the query
       const location = state ? `${city}, ${state}` : city;
       const response = await axios.get("/api/weather", {
         params: { city: location },
@@ -32,43 +32,14 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
       <h1 className="text-3xl font-bold mb-8 text-blue-800">Weather App</h1>
       <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center w-full max-w-2xl">
-        <div className="flex w-full mb-4 gap-2">
-          <div className="relative flex-grow">
-            <input
-              type="text"
-              placeholder="City"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              className="border p-3 pl-10 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-            <span className="absolute left-3 top-3 text-gray-400">
-              <FaSearch size={20} />
-            </span>
-          </div>
-          <div className="relative flex-grow">
-            <input
-              type="text"
-              placeholder="State (optional)"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              className="border p-3 pl-10 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-            <span className="absolute left-3 top-3 text-gray-400">
-              <FaMapMarkerAlt size={20} />
-            </span>
-          </div>
-        </div>
-        <button
-          onClick={fetchWeather}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center w-full mb-4"
-          disabled={loading || !city}
-        >
-          {loading ? (
-            <FaSpinner className="animate-spin h-5 w-5 mr-2" />
-          ) : (
-            <span className="w-full text-center">Get Weather</span>
-          )}
-        </button>
+        <WeatherForm
+          city={city}
+          state={state}
+          loading={loading}
+          onCityChange={(e) => setCity(e.target.value)}
+          onStateChange={(e) => setState(e.target.value)}
+          onSubmit={fetchWeather}
+        />
         {error && (
           <div className="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 w-full text-center border border-red-300">
             {error}
