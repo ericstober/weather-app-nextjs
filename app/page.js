@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import WeatherForm from "./components/WeatherForm";
 import WeatherDisplay from "./components/WeatherDisplay";
+import ErrorAlert from "./components/ErrorAlert";
 
 export default function Home() {
   const [city, setCity] = useState("");
@@ -29,9 +30,9 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
-      <h1 className="text-3xl font-bold mb-8 text-blue-800">Weather App</h1>
-      <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center w-full max-w-2xl">
+    <div className='flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300'>
+      <h1 className='text-3xl font-bold mb-8 text-blue-800'>Weather App</h1>
+      <div className='bg-white rounded-lg shadow-md p-6 flex flex-col items-center w-full max-w-2xl'>
         <WeatherForm
           city={city}
           state={state}
@@ -40,11 +41,7 @@ export default function Home() {
           onStateChange={(e) => setState(e.target.value)}
           onSubmit={fetchWeather}
         />
-        {error && (
-          <div className="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 w-full text-center border border-red-300">
-            {error}
-          </div>
-        )}
+        <ErrorAlert error={error} />
         <WeatherDisplay weather={weather} state={state} />
       </div>
     </div>
