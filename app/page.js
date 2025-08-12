@@ -18,7 +18,7 @@ export default function Home() {
     try {
       setError(null);
       const location = state ? `${city}, ${state}` : city;
-      const response = await axios.get("/api/weather", {
+      const response = await axios.get("/api/current-weather", {
         params: { city: location },
       });
       setWeather(response.data);
