@@ -5,7 +5,7 @@ import axios from "axios";
 import WeatherForm from "./components/WeatherForm";
 import WeatherDisplay from "./components/WeatherDisplay";
 import ErrorAlert from "./components/ErrorAlert";
-import ForecastDisplay from "./components/ForcastDisplay";
+import ForecastDisplay from "./components/ForecastDisplay";
 
 export default function Home() {
   const [city, setCity] = useState("");
