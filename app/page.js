@@ -14,6 +14,25 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [forecast, setForecast] = useState(null);
+  const [showWeather, setShowWeather] = useState(false);
+  const [showForecast, setShowForecast] = useState(false);
+
+  // Toggle display states
+  const handleShowWeather = async () => {
+    if (!showWeather) {
+      setShowWeather(true);
+      setShowForecast(false);
+    }
+    await fetchWeather();
+  };
+
+  const handleShowForecast = async () => {
+    if (!showForecast) {
+      setShowWeather(false);
+      setShowForecast(true);
+    }
+    await fetchForecast();
+  };
 
   const fetchWeather = async () => {
     setLoading(true);
@@ -57,12 +76,14 @@ export default function Home() {
           loading={loading}
           onCityChange={(e) => setCity(e.target.value)}
           onStateChange={(e) => setState(e.target.value)}
-          onSubmit={fetchWeather}
-          onForecast={fetchForecast}
+          onSubmit={handleShowWeather}
+          onForecast={handleShowForecast}
+          showWeather={showWeather}
+          showForecast={showForecast}
         />
         <ErrorAlert error={error} />
-        <WeatherDisplay weather={weather} state={state} />
-        <ForecastDisplay forecast={forecast} />
+        {showWeather && <WeatherDisplay weather={weather} state={state} />}
+        {showForecast && <ForecastDisplay forecast={forecast} />}
       </div>
     </div>
   );

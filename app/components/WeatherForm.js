@@ -8,7 +8,11 @@ export default function WeatherForm({
   onStateChange,
   onSubmit,
   onForecast,
+  showWeather,
+  showForecast,
 }) {
+  const noDisplaySelected = !showWeather && !showForecast;
+
   return (
     <>
       <div className='flex w-full mb-4 gap-2'>
@@ -37,24 +41,32 @@ export default function WeatherForm({
           </span>
         </div>
       </div>
-      <button
-        onClick={onSubmit}
-        className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center w-full mb-2'
-        disabled={loading || !city}
-      >
-        {loading ? (
-          <FaSpinner className='animate-spin h-5 w-5 mr-2' />
-        ) : (
-          <span className='w-full text-center'>Get Weather</span>
-        )}
-      </button>
-      <button
-        onClick={onForecast}
-        className='bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500 flex items-center justify-center w-full mb-4'
-        disabled={loading || !city}
-      >
-        Show Forecast
-      </button>
+      {(noDisplaySelected || !showWeather) && (
+        <button
+          onClick={onSubmit}
+          className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center w-full mb-2'
+          disabled={loading || !city}
+        >
+          {loading && showWeather ? (
+            <FaSpinner className='animate-spin h-5 w-5 mr-2' />
+          ) : (
+            <span className='w-full text-center'>Show Weather</span>
+          )}
+        </button>
+      )}
+      {(noDisplaySelected || !showForecast) && (
+        <button
+          onClick={onForecast}
+          className='bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500 flex items-center justify-center w-full mb-4'
+          disabled={loading || !city}
+        >
+          {loading && showForecast ? (
+            <FaSpinner className='animate-spin h-5 w-5 mr-2' />
+          ) : (
+            <span className='w-full text-center'>Show Forecast</span>
+          )}
+        </button>
+      )}
     </>
   );
 }
