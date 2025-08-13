@@ -5,6 +5,7 @@ import axios from "axios";
 import WeatherForm from "./components/WeatherForm";
 import WeatherDisplay from "./components/WeatherDisplay";
 import ErrorAlert from "./components/ErrorAlert";
+import ForecastDisplay from "./components/ForcastDisplay";
 
 export default function Home() {
   const [city, setCity] = useState("");
@@ -12,6 +13,7 @@ export default function Home() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [forecast, setForecast] = useState(null);
 
   const fetchWeather = async () => {
     setLoading(true);
@@ -29,6 +31,22 @@ export default function Home() {
     setLoading(false);
   };
 
+  const fetchForecast = async () => {
+    setLoading(true);
+    try {
+      setError(null);
+      const location = state ? `${city}, ${state}` : city;
+      const response = await axios.get("/api/forecast", {
+        params: { city: location, days: 3 },
+      });
+      setForecast(response.data);
+    } catch (err) {
+      setError("Forecast not found. Please try again.");
+      setForecast(null);
+    }
+    setLoading(false);
+  };
+
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300'>
       <h1 className='text-3xl font-bold mb-8 text-blue-800'>Weather App</h1>
@@ -41,8 +59,16 @@ export default function Home() {
           onStateChange={(e) => setState(e.target.value)}
           onSubmit={fetchWeather}
         />
+        <button
+          onClick={fetchForecast}
+          className='bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500 flex items-center justify-center w-full mb-4'
+          disabled={loading || !city}
+        >
+          Show Forecast
+        </button>
         <ErrorAlert error={error} />
         <WeatherDisplay weather={weather} state={state} />
+        <ForecastDisplay forecast={forecast} />
       </div>
     </div>
   );
