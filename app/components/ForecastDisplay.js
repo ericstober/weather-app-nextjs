@@ -1,4 +1,4 @@
-import { FaCloudSun, FaCloudRain, FaSnowflake, FaSun } from "react-icons/fa";
+import { FaCloudSun, FaCloudRain, FaSnowflake, FaSun, FaMapMarkerAlt } from "react-icons/fa";
 
 function getIcon(condition) {
   const text = condition.toLowerCase();
@@ -11,8 +11,18 @@ function getIcon(condition) {
 export default function ForecastDisplay({ forecast }) {
   if (!forecast || !forecast.forecast) return null;
 
+  const locationName = forecast.location?.name;
+  const region = forecast.location?.region;
+
   return (
     <div className="bg-blue-100 p-6 rounded shadow w-full mt-4">
+      <div className="flex items-center justify-center mb-2">
+        <FaMapMarkerAlt className="mr-2 text-blue-700" size={22} />
+        <span className="text-lg font-bold text-blue-700">
+          {locationName}
+          {region ? `, ${region}` : ""}
+        </span>
+      </div>
       <h3 className="text-xl font-bold text-blue-700 mb-4 text-center">3-Day Forecast</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {forecast.forecast.forecastday.map((day) => (
