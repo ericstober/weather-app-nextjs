@@ -58,14 +58,8 @@ export default function Home() {
           onCityChange={(e) => setCity(e.target.value)}
           onStateChange={(e) => setState(e.target.value)}
           onSubmit={fetchWeather}
+          onForecast={fetchForecast}
         />
-        <button
-          onClick={fetchForecast}
-          className='bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500 flex items-center justify-center w-full mb-4'
-          disabled={loading || !city}
-        >
-          Show Forecast
-        </button>
         <ErrorAlert error={error} />
         <WeatherDisplay weather={weather} state={state} />
         <ForecastDisplay forecast={forecast} />

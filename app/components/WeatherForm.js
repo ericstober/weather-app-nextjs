@@ -1,6 +1,14 @@
 import { FaSearch, FaMapMarkerAlt, FaSpinner } from "react-icons/fa";
 
-export default function WeatherForm({ city, state, loading, onCityChange, onStateChange, onSubmit }) {
+export default function WeatherForm({
+  city,
+  state,
+  loading,
+  onCityChange,
+  onStateChange,
+  onSubmit,
+  onForecast,
+}) {
   return (
     <>
       <div className='flex w-full mb-4 gap-2'>
@@ -31,7 +39,7 @@ export default function WeatherForm({ city, state, loading, onCityChange, onStat
       </div>
       <button
         onClick={onSubmit}
-        className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center w-full mb-4'
+        className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center w-full mb-2'
         disabled={loading || !city}
       >
         {loading ? (
@@ -39,6 +47,13 @@ export default function WeatherForm({ city, state, loading, onCityChange, onStat
         ) : (
           <span className='w-full text-center'>Get Weather</span>
         )}
+      </button>
+      <button
+        onClick={onForecast}
+        className='bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500 flex items-center justify-center w-full mb-4'
+        disabled={loading || !city}
+      >
+        Show Forecast
       </button>
     </>
   );
